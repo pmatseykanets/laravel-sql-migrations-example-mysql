@@ -15,6 +15,8 @@ dist: trusty
 sudo: required
 
 before_install:
+  - mysql_upgrade
+  - mysql -e "use mysql; update user set authentication_string=PASSWORD('') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
   - mysql -e "create database homestead charset=utf8mb4 collate=utf8mb4_unicode_ci"
   - mysql -e "create user homestead@localhost identified by 'secret'"
   - mysql -e "grant all on homestead.* to homestead@localhost"
